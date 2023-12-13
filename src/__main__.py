@@ -10,9 +10,11 @@ from logging import Handler, Formatter, getLogger, DEBUG, basicConfig
 
 import sys
 
+import tabs
+
 
 class ScrolledText(Text):
-    # From tkinter module, but using ttk
+    # From tkinter.scrolledtext module, tuned to use ttk.Scrollbar
 
     def __init__(self, master=None, **kw):
         self.frame = ttk.Frame(master)
@@ -48,14 +50,21 @@ class TtkLogHandler(Handler):
         self.text_widget.insert('end', log_message + "\n")
         self.text_widget.see(tk.END)
 
+###############################
+
 async def build_main_win(root):
     frame    = ttk.Frame(root)
     frame.pack(expand=1, fill="both")
 
+    frame.columnconfigure(0, weight=1)
+    frame.rowconfigure(0, weight=4)
+    frame.rowconfigure(1, weight=1)
+
 
     # Build log
     log_widget = ScrolledText(frame, height = 15, width = 100)
-    log_widget.pack(expand=1)
+    log_widget.bind("<Key>", lambda e: "break")
+    log_widget.grid(row=1,column=0, sticky="nwse")
 
 
     # Add log formatter and handler
@@ -64,6 +73,11 @@ async def build_main_win(root):
     log_handler.setFormatter(log_formatter)
 
     getLogger().addHandler(log_handler)
+
+    # Add tabs
+    tabs_obj = ttk.Notebook(frame)
+    await tabs.s2p_process.build(tabs_obj)
+    tabs_obj.grid(row=0, column=0, sticky="NWSE")
 
 
 async def mainloop(root):
@@ -77,6 +91,7 @@ async def mainloop(root):
             root.winfo_exists()
         except TclError:
             is_running = False
+
 
 async def hello_worker():
     log = getLogger("hello_task")
