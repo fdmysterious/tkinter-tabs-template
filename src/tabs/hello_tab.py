@@ -3,10 +3,9 @@ from tkinter.ttk import (
     Label,
 )
 
-from dataclasses import dataclass
 
 # Settings
-NAME = "Traitement S2P"
+NAME = "Hello tab"
 
 # Global objects
 obj_tab = None

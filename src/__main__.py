@@ -76,7 +76,8 @@ async def build_main_win(root):
 
     # Add tabs
     tabs_obj = ttk.Notebook(frame)
-    await tabs.s2p_process.build(tabs_obj)
+    await tabs.hello_tab.build(tabs_obj)
+    await tabs.matplotlib_tab.build(tabs_obj)
     tabs_obj.grid(row=0, column=0, sticky="NWSE")
 
 
