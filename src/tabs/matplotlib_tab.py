@@ -28,7 +28,7 @@ async def build(tabs):
     global obj_tab
 
     obj_tab = Frame(tabs)
-    obj_tab.grid(row=0, column=0, sticky="nwse")
+    obj_tab.grid(row=0, column=0, sticky="nwse", ipadx=10, ipady=10)
     tabs.add(obj_tab, text=NAME)
 
     # Create figure
