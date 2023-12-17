@@ -6,3 +6,8 @@ TkInter tabs template
 
 
 This is a simple template for a tabbed tk application, using `asyncio`.
+
+
+.. figure:: .img/screenshot.png
+
+    Window screenshot
