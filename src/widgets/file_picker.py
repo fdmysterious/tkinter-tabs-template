@@ -34,7 +34,7 @@ class FilePicker:
         Type.Directory: filedialog.askdirectory,
     }
 
-    def __init__(self, parent, label, dialog_type, **dialog_args):
+    def __init__(self, parent, label, dialog_type, command=None, **dialog_args):
         self.frame = LabelFrame(parent, text=label, padding=2)
         self.entry = Entry(self.frame)
         self.btn   = Button(self.frame, text="...", command=self.pick_file)
@@ -45,6 +45,11 @@ class FilePicker:
         self.dialog_type = FilePicker.Type(dialog_type)
         self.dialog_args = dialog_args
 
+        self.command     = command
+
+        if self.command is not None:
+            self.entry.bind("<Return>", lambda *args: self.command(self.entry.get()))
+
 
     def pick_file(self):
         # Call dialog function from dialog dict functions with registered arguments
@@ -53,3 +58,11 @@ class FilePicker:
         # Save result in entry
         self.entry.delete(0, tk.END)
         self.entry.insert(0, file_name)
+
+        # Callback
+        if self.command is not None:
+            self.command(file_name)
+
+    @property
+    def value(self):
+        return self.entry.get()
